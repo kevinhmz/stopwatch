@@ -3,7 +3,8 @@ import { createUseStyles } from 'react-jss';
 import Timer from "components/Timer";
 import TimerActions from 'components/TimerActions';
 import Laps from 'components/Laps';
-
+import store from 'store';
+import {storeContext} from 'redux-react-hook'
 const useStyles = createUseStyles({
   root: {
     width: '100%'
@@ -20,12 +21,14 @@ const useStyles = createUseStyles({
 function App() {
   const classes = useStyles();
   return (
-  <div>
+  <storeContext.Provider value={store}>
+    <div>
       <h1 className={classes.title}>StopWacth</h1>
       <Timer/>
       <TimerActions />
       <Laps />
   </div>
+  </storeContext.Provider>
   );
 }
 
