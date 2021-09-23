@@ -1,4 +1,4 @@
-import {createStore} from 'redux';
+import {createStore, compose, applyMiddleware, combineReducers} from 'redux';
 import TimeReducer from 'reducers/TimeReducer';
 
 const reducers = {
@@ -6,14 +6,14 @@ const reducers = {
 };
 
 function combineReducersV2(reducers) {
-  return function (state, action) {
+  return function (state = {}, action) {
     return Object.keys(reducers).reduce((acc, value) => {
-      acc[value] = reducers[value](state, action);
+      acc[value] = reducers[value](state[value], action);
       return acc;
     }, {});
   };
 }
-
+const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 const reducer = combineReducersV2(reducers);
 
-export default createStore(reducer);
+export default createStore(reducer, composeEnhancers(applyMiddleware()));
